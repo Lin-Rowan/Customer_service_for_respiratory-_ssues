@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="呼吸道健康科普平台 - 专业提供呼吸道肺炎、呼吸系统哮喘等健康知识咨询服务">
+    <title>呼吸道健康科普平台 | 专业健康咨询</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Colors from design system */
+            --primary: #0891B2;
+            --primary-dark: #0E7490;
+            --secondary: #22D3EE;
+            --cta: #22C55E;
+            --cta-dark: #16A34A;
+            --background: #F0FDFA;
+            --surface: #FFFFFF;
+            --text-primary: #134E4A;
+            --text-secondary: #0F766E;
+            --text-muted: #5EEAD4;
+            --border: #99F6E4;
+            --focus-ring: #06B6D4;
+
+            /* Spacing scale */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+
+            /* z-index scale */
+            --z-header: 50;
+            --z-dropdown: 40;
+            --z-modal: 100;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.75;
+            font-size: 16px;
+            min-height: 100vh;
+        }
+
+        /* Focus styles for accessibility */
+        :focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: var(--z-modal);
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Header */
+        .header {
+            background: var(--surface);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-header);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .logo-text {
+            font-family: 'Figtree', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .nav {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 6px;
+            transition: color 150ms ease, background-color 150ms ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: var(--background);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--cta);
+            color: white;
+            text-decoration: none;
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 200ms ease, transform 150ms ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--cta-dark);
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background-color: rgba(8, 145, 178, 0.1);
+            color: var(--primary);
+            padding: 0.375rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .hero-title {
+            font-family: 'Figtree', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto var(--spacing-lg);
+        }
+
+        /* Topics grid */
+        .topics-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .section-title {
+            font-family: 'Figtree', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-primary);
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .topic-card {
+            background: var(--surface);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+            cursor: pointer;
+        }
+
+        .topic-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .topic-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(8, 145, 178, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary);
+        }
+
+        .topic-card h3 {
+            font-family: 'Figtree', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .topic-card p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Chatbot section */
+        .chatbot-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .chatbot-container {
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: var(--spacing-md) var(--spacing-lg);
+            color: white;
+        }
+
+        .chatbot-header h2 {
+            font-family: 'Figtree', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .chatbot-header p {
+            opacity: 0.95;
+            font-size: 0.9375rem;
+        }
+
+        .chatbot-iframe {
+            display: block;
+            width: 100%;
+            height: 700px;
+            border: none;
+        }
+
+        /* Features section */
+        .features-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .feature-card {
+            background: var(--surface);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .feature-number {
+            font-family: 'Figtree', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            opacity: 0.2;
+            line-height: 1;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-card h3 {
+            font-family: 'Figtree', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(34, 197, 94, 0.08);
+            border-left: 4px solid var(--cta);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .disclaimer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            transition: color 150ms ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .topics-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: var(--spacing-lg) var(--spacing-sm);
+            }
+
+            .chatbot-iframe {
+                height: 600px;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo" aria-label="呼吸道健康科普平台 - 首页">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <span class="logo-text">呼吸道健康科普</span>
+            </a>
+            <nav class="nav" aria-label="主导航">
+                <a href="#topics" class="nav-link">健康话题</a>
+                <a href="#chatbot" class="nav-link">AI 咨询</a>
+                <a href="#features" class="nav-link">服务特色</a>
+            </nav>
+            <a href="#chatbot" class="cta-button">立即咨询</a>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main id="main-content">
+        <!-- Hero section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-badge">专业健康科普平台</div>
+            <h1 id="hero-title" class="hero-title">关注呼吸道健康<br>守护每一次呼吸</h1>
+            <p class="hero-description">
+                提供专业的呼吸道肺炎、哮喘等呼吸系统疾病知识科普服务，
+                24小时 AI 智能咨询，为您提供可靠的健康指导。
+            </p>
+        </section>
+
+        <!-- Topics section -->
+        <section class="topics-section" id="topics" aria-labelledby="topics-title">
+            <h2 id="topics-title" class="section-title">我们的健康话题</h2>
+            <div class="topics-grid">
+                <div class="topic-card" tabindex="0" role="button" aria-label="呼吸道健康知识">
+                    <div class="topic-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <h3>呼吸道健康</h3>
+                    <p>了解呼吸系统结构与功能，掌握呼吸道保养基础知识</p>
+                </div>
+
+                <div class="topic-card" tabindex="0" role="button" aria-label="呼吸道肺炎知识">
+                    <div class="topic-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                            <path d="M12 8v4"/>
+                            <path d="M12 16h.01"/>
+                        </svg>
+                    </div>
+                    <h3>呼吸道肺炎</h3>
+                    <p>肺炎症状识别、预防措施与治疗指导，科学应对肺炎</p>
+                </div>
+
+                <div class="topic-card" tabindex="0" role="button" aria-label="哮喘防治知识">
+                    <div class="topic-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h3>哮喘防治</h3>
+                    <p>哮喘的病因分析、发作预防与日常管理方案</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer" role="note">
+            <p>
+                <strong>健康声明：</strong>本平台提供的健康科普信息仅供参考，不能替代专业医疗诊断。
+                如有严重症状，请及时就医。
+            </p>
+        </div>
+
+        <!-- Chatbot section -->
+        <section class="chatbot-section" id="chatbot" aria-labelledby="chatbot-title">
+            <div class="chatbot-container">
+                <div class="chatbot-header">
+                    <h2 id="chatbot-title">AI 健康咨询助手</h2>
+                    <p>专业解答呼吸道健康问题，24小时为您服务</p>
+                </div>
+                <iframe
+                    src="https://udify.app/chatbot/H2jTDygH4Ft6FjjR"
+                    class="chatbot-iframe"
+                    title="Dify AI健康咨询助手"
+                    frameborder="0"
+                    allow="microphone; clipboard-write; clipboard-read">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- Features section -->
+        <section class="features-section" id="features" aria-labelledby="features-title">
+            <h2 id="features-title" class="section-title">为什么选择我们</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-number">01</div>
+                    <h3>专业可靠</h3>
+                    <p>基于权威医学知识库，提供准确的健康科普信息</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-number">02</div>
+                    <h3>即时响应</h3>
+                    <p>AI 智能助手秒级响应，随时解答您的健康疑问</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-number">03</div>
+                    <h3>隐私保护</h3>
+                    <p>严格保护用户隐私，健康咨询安全加密</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">关于我们</a>
+                <a href="#" class="footer-link">使用条款</a>
+                <a href="#" class="footer-link">隐私政策</a>
+                <a href="#" class="footer-link">联系我们</a>
+            </div>
+            <p class="footer-copyright">&copy; 2025 呼吸道健康科普平台. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
